@@ -10,4 +10,7 @@ res.render('quizes/answer', {respuesta: 'Correcto'});
 res.render('quizes/answer', {respuesta: 'Incorrecto'});
 }
 };
-
+// GET /author 
+exports.author = function(req, res){
+res.render('author', {autor: 'Miguel Angel Avila L.'});
+};
