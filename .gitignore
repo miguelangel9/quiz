@@ -34,6 +34,7 @@ node_modules
 .js~
 npm-debug.log
 quiz.sqlite
+.env
 
 # Files that might appear on external disk
 .Spotlight-V100
