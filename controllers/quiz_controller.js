@@ -14,9 +14,17 @@ models.Quiz.find(quizId).then(
 
 // GET /quizes
 exports.index = function(req, res) {
-  models.Quiz.findAll().then(function(quizes) {
-res.render('quizes/index.ejs', { quizes: quizes});
-})
+  if (req.query.search) {
+    var reg = new RegExp(" ","g");
+    var search = '%' + req.query.search.replace(reg,'%') + '%';
+    models.Quiz.findAll({where: ["pregunta like ?", search]}).then(function(quizes) {
+    res.render('quizes/index.ejs', {quizes: quizes});
+    });
+  } else {
+    models.Quiz.findAll().then(function(quizes) {
+    res.render('quizes/index.ejs', { quizes: quizes});
+    })
+  }
 };
 
 // GET /quizes/:id 
