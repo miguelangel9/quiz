@@ -72,6 +72,31 @@ var quiz = models.Quiz.build( req.body.quiz );
  )
 };
 
+// PUT /quizes/:id 
+exports.update = function(req, res) { 
+  req.quiz.pregunta = req.body.quiz.pregunta;
+  req.quiz.respuesta = req.body.quiz.respuesta;
+
+  req.quiz.validate().then(
+  function(err){
+    if (err) {
+   res.render('quizes/edit', {quiz: req.quiz, errors: err.errors});
+    } else {
+// save: guarda en DB los campos pregunta y respuesta de quiz
+      req.quiz
+        .save({fields: ["pregunta", "respuesta"]})
+        .then(function(){ res.redirect('/quizes')});
+        }// Redirección HTTP (URL relativo) lista de preguntas
+  }
+ )
+};
+
+
+// GET /quizes/:id/edit
+exports.edit = function(req, res) { 
+  var quiz = req.quiz; //autoload se instancia de quiz
+  res.render('quizes/edit', { quiz: quiz, errors: []});
+};
 
 // GET /author 
 exports.author = function(req, res){
