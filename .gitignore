@@ -29,10 +29,6 @@ $RECYCLE.BIN/
 .LSOverride
 node_modules
 # Thumbnails
-._*
-.*~
-.js~
-*.js
 npm-debug.log
 quiz.sqlite
 .env
