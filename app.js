@@ -27,9 +27,23 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(partials());
 
+
+//Autologout
+app.use(function(req, res, next) {
+//Si el usuario ha iniciado sesión y se tiene registro de la última visita.
+  if(req.session.user && req.session.lastVisit) {
+//Si la diferencia entre el tiempo actual y la última visita es mayor a 2min. borra la sesión.
+    if((new Date().getTime() - req.session.lastVisit) > 120000 ) {
+      delete req.session.user;
+    }
+  }
+  req.session.lastVisit = new Date().getTime();
+  next();
+});
+
+
 // Helpers dinamicos:
 app.use(function(req, res, next) {
-
   // guardar path en session.redir para despues de login 
 if (!req.path.match(/\/login|\/logout/)) {
 	req.session.redir = req.path;
@@ -38,6 +52,7 @@ if (!req.path.match(/\/login|\/logout/)) {
 res.locals.session= req.session;
 next();
 });
+
 
 app.use('/', routes);
 
